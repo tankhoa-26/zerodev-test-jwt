@@ -15,6 +15,9 @@ router.get("/rotate/ec", async (req, res) => {
 	const privateJwk = await jose.exportJWK(privateKey);
 	const publicJwk = await jose.exportJWK(publicKey);
 
+	console.log("privateJwk: ", privateJwk);
+	console.log("publicJwk: ", publicJwk);
+
 	fs.writeFileSync(
 		"public_keys_ec.json",
 		JSON.stringify(publicJwk, null, "  ")
@@ -23,9 +26,6 @@ router.get("/rotate/ec", async (req, res) => {
 		"private_keys_ec.json",
 		JSON.stringify(privateJwk, null, "  ")
 	);
-
-	console.log("privateJwk: ", privateJwk);
-	console.log("publicJwk: ", publicJwk);
 
 	res.send("EC Key Rotated!!");
 });
