@@ -86,7 +86,7 @@ router.post("/verify/ec", async (req, res) => {
 	console.log("payload: ", payload);
 	console.log("protectedHeader: ", protectedHeader);
 
-	if (payload[iss] === "urn:example:issuer") {
+	if (payload["iss"] === "urn:example:issuer") {
 		res.send(true);
 	}
 
