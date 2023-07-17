@@ -19,11 +19,11 @@ router.get("/rotate/ec", async (req, res) => {
 	console.log("publicJwk: ", publicJwk);
 
 	fs.writeFileSync(
-		"public_keys_ec.json",
+		"./public_keys_ec.json",
 		JSON.stringify(publicJwk, null, "  ")
 	);
 	fs.writeFileSync(
-		"private_keys_ec.json",
+		"./private_keys_ec.json",
 		JSON.stringify(privateJwk, null, "  ")
 	);
 
@@ -31,14 +31,14 @@ router.get("/rotate/ec", async (req, res) => {
 });
 
 router.get("/jwks/ec", async (req, res) => {
-	const publicJwk = fs.readFileSync("public_keys_ec.json");
+	const publicJwk = fs.readFileSync("./public_keys_ec.json");
 	console.log(publicJwk.toString());
 
 	res.send(publicJwk.toString());
 });
 
 router.get("/.well-known/keys.json", async (req, res) => {
-	const publicJwk = fs.readFileSync("public_keys_ec.json");
+	const publicJwk = fs.readFileSync("./public_keys_ec.json");
 	console.log(publicJwk.toString());
 
 	res.send(publicJwk.toString());
@@ -49,7 +49,7 @@ router.get("/token/ec", async (req, res) => {
 	 * basically this is a demo to make a JWKS endpoint , but you have change your JWT token creator with JWKS endpoint
 	 */
 	const alg = "RS256";
-	const privateJwk = fs.readFileSync("private_keys_ec.json");
+	const privateJwk = fs.readFileSync("./private_keys_ec.json");
 	const ecPrivateKey = await jose.importJWK(
 		JSON.parse(privateJwk.toString()),
 		"PS256"
@@ -68,7 +68,7 @@ router.get("/token/ec", async (req, res) => {
 
 router.post("/verify/ec", async (req, res) => {
 	const { jwt } = req.body;
-	const publicJwk = fs.readFileSync("public_keys_ec.json");
+	const publicJwk = fs.readFileSync("./public_keys_ec.json");
 
 	const ecPublicKey = await jose.importJWK(
 		JSON.parse(publicJwk.toString()),
