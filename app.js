@@ -48,6 +48,7 @@ router.get("/token/ec", async (req, res) => {
 	/**
 	 * basically this is a demo to make a JWKS endpoint , but you have change your JWT token creator with JWKS endpoint
 	 */
+	const { email } = req.body;
 	const alg = "RS256";
 	const privateJwk = fs.readFileSync("./private_keys_ec.json");
 	const ecPrivateKey = await jose.importJWK(
@@ -57,6 +58,7 @@ router.get("/token/ec", async (req, res) => {
 
 	const jwt = await new jose.SignJWT({ "urn:example:claim": true })
 		.setProtectedHeader({ alg })
+		.setSubject(email)
 		.setIssuedAt()
 		.setIssuer("urn:example:issuer")
 		.setAudience("urn:example:audience")
